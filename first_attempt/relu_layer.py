@@ -25,5 +25,8 @@ class ReluNB:
         return np.maximum(x, 0)
     
     def backward(self, dLda):
-
+        
+        print(dLda.shape)
+        print(self.dadz.shape)
+        
         self.dLdZ = np.tensordot(dLda, self.dadz, axes=([0], [0]))
