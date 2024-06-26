@@ -45,6 +45,10 @@ class Tensor:
 
         return out
     
+    # we have to put the type hint in quotes because the class has not fully been defined
+    def sub(self, other: 'Tensor'):
+        return self.add(other.mul(-1.0))
+    
     def repeat_cols(self, k):
 
         out = Tensor(np.repeat(self.value, repeats=(k, ), axis=1))
@@ -125,6 +129,21 @@ class Tensor:
         def _backward():
 
             self.grad += (out.grad * (self.value > 0))
+
+        out._backward = _backward
+        out.requires_grad = self.requires_grad
+
+        return out
+    
+    # x^k elementwise
+    def pow(self, k):
+
+        out = Tensor(np.power(self.value, k))
+        out.prev = {self}
+
+        def _backward():
+
+            self.grad += (k * np.power(self.value, k-1)) * out.grad
 
         out._backward = _backward
         out.requires_grad = self.requires_grad

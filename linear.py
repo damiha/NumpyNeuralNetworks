@@ -6,10 +6,11 @@ import numpy as np
 class Linear(Layer):
 
     def __init__(self, in_dim, out_dim):
+        
+        # kaiming initialization
+        std_kaiming = np.sqrt(2 / out_dim)
 
-        # TODO: add kaiming initialization
-
-        self.W = Tensor(np.random.randn(out_dim, in_dim))
+        self.W = Tensor(std_kaiming * np.random.randn(out_dim, in_dim))
         self.b = Tensor(np.zeros((1, out_dim)))
 
         self.params = {
