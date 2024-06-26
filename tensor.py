@@ -119,7 +119,7 @@ class Tensor:
     # not the best from a SWE standpoint
     def relu(self):
 
-        out = Tensor(np.maximum(self.value))
+        out = Tensor(np.maximum(self.value, 0))
         out.prev = {self}
 
         def _backward():

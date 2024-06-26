@@ -1,8 +1,9 @@
 
 from tensor import Tensor
+from layer import Layer
 import numpy as np
 
-class Linear:
+class Linear(Layer):
 
     def __init__(self, in_dim, out_dim):
 
@@ -10,6 +11,11 @@ class Linear:
 
         self.W = Tensor(np.random.randn(out_dim, in_dim))
         self.b = Tensor(np.zeros((1, out_dim)))
+
+        self.params = {
+            "W": self.W,
+            "b": self.b
+        }
 
     def forward(self, X: Tensor):
         
@@ -25,3 +31,6 @@ class Linear:
         h = h.add(b_broadcasted)
 
         return h
+    
+    def get_params(self):
+        return self.params
